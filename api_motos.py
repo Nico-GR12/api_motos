@@ -97,6 +97,14 @@ app = FastAPI(
     description="API para gestión de motos, marcas y especificaciones técnicas"
 )
 
+@app.on_event("startup")
+def on_startup():
+    create_db_and_tables()
+
+@app.get('/')
+def root():
+    return{'message':'Hello'}
+
 
 @app.post("/marcas/", response_model=MarcaPublic)
 def crear_marca(marca: MarcaCreate, session: SessionDep):
